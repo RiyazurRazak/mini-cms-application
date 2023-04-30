@@ -23,7 +23,7 @@ namespace cms_api.Controllers
         {
             try
             {
-                var users = _dbContext.RootUsers.Select(user => new {email = user.EmailAddress, role = user.Role});
+                var users = _dbContext.RootUsers.Select(user => new {email = user.EmailAddress, role = user.Role, id = user.Id});
                 return Ok(users);
             }
             catch (Exception ex)
@@ -48,6 +48,22 @@ namespace cms_api.Controllers
                 await _dbContext.SaveChangesAsync();
                 return Ok();
 
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("user/{id}")]
+        async public Task<IActionResult> DeleteUser(string id)
+        {
+            try
+            {
+                var userToRemove = _dbContext.RootUsers.Find(id);
+                _dbContext.RootUsers.Remove(userToRemove!);
+                await _dbContext.SaveChangesAsync();
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -113,8 +129,9 @@ namespace cms_api.Controllers
         {
             try
             {
+                Console.WriteLine(payload.Name);
                 var currentActiveTheme = _dbContext.Themes.Where(theme => theme.isActive).FirstOrDefault();
-                var userSelectedTheme = _dbContext.Themes.Where(theme => theme.Id == payload.Id).FirstOrDefault();
+                var userSelectedTheme = _dbContext.Themes.Where(theme => theme.Name == payload.Name).FirstOrDefault();
                 if (userSelectedTheme == null)
                 {
                     return NotFound();
@@ -133,6 +150,7 @@ namespace cms_api.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return StatusCode(500, ex.Message);
             }
         }

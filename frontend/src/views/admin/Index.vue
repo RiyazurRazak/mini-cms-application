@@ -53,12 +53,12 @@ const items = ref([
     label: 'Users',
     items: [
       {
-        label: 'All Users',
+        label: 'Users',
         to: '/admin/users'
       },
       {
-        label: 'Add Root Users',
-        to: '/admin/users/new'
+        label: 'Root Users',
+        to: '/admin/root-users/'
       }
     ]
   }

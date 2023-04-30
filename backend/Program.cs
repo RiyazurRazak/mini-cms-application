@@ -12,6 +12,7 @@ namespace cms_api
 
           
             var builder = WebApplication.CreateBuilder(args);
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
             // Add services to the container.
 
@@ -24,6 +25,14 @@ namespace cms_api
             builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.AddSwaggerGen();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader();
+                                  });
+            });
 
             var app = builder.Build();
 
@@ -34,15 +43,13 @@ namespace cms_api
                 app.UseSwaggerUI();
             }
 
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseWhen(context => context.Request.Path.StartsWithSegments("/api/hyper"), builder =>
-                builder.UseMiddleware<AuthMiddleware>()
+               builder.UseMiddleware<AuthMiddleware>()
             );
 
-            app.UseCors(options =>
-               options.WithOrigins("*")
-                   .AllowAnyMethod()
-                   .AllowAnyHeader()
-           );
+
 
             app.UseHttpsRedirection();
 

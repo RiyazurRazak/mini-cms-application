@@ -38,8 +38,8 @@ namespace cms_api.Middleware
                 {
                     // get the last path of the route
                     string lastPath = context.Request.Path.Value!.Split("/").Last();
-
                     List<string> data = TokenHelper.DecodeToken(token);
+
                  
                     // check if the path contains any hyper routes
                     if (HyperRoutes.Contains(lastPath))
@@ -64,6 +64,7 @@ namespace cms_api.Middleware
             }
             catch (Exception ex)
             {
+             
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "text/plain";
                 await context.Response.WriteAsync(ex.Message);

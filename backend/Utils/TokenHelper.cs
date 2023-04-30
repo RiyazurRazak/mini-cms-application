@@ -31,17 +31,18 @@ namespace cms_api.Utils
 
         public static List<string> DecodeToken(string token)
         {
+            Console.WriteLine(token);
             var tokenHandller = new JwtSecurityTokenHandler();
-            var secret_key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_SEED")!);
             tokenHandller.ValidateToken(token, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(secret_key),
+                IssuerSigningKey = new SymmetricSecurityKey(SecretKeyBytes),
                 ValidateIssuer = false,
-                ValidateAudience = false
+                ValidateAudience = false,
+                ValidateLifetime = false,
             }, out var validatedtoken);
 
-            var jwtToken = (JwtSecurityToken)validatedtoken;
+            var jwtToken = (JwtSecurityToken) validatedtoken;
             var userRole = jwtToken.Claims.First(x => x.Type == "role").ToString();
             var userId = jwtToken.Claims.First(x => x.Type == "id").ToString();
 
