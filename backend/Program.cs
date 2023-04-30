@@ -1,5 +1,6 @@
 using cms_api.Data;
 using cms_api.Middleware;
+using cms_api.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace cms_api
@@ -8,6 +9,8 @@ namespace cms_api
     {
         public static void Main(string[] args)
         {
+
+          
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
