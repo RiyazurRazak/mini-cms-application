@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace cms_api.Controllers
 {
+   
+    [Route("api/hyper")]
     [ApiController]
-    [Route("/api/hyper")]
     public class AdminController : ControllerBase
     {
 
@@ -17,7 +18,7 @@ namespace cms_api.Controllers
             _dbContext = context;
         }
 
-        [HttpGet("/users")]
+        [HttpGet("users")]
         public IActionResult Users()
         {
             try
@@ -31,7 +32,7 @@ namespace cms_api.Controllers
             }
         }
 
-        [HttpPost("/user")]
+        [HttpPost("user")]
         async public Task<IActionResult> User([FromBody] RootUserDto payload)
         {
             try
@@ -54,7 +55,7 @@ namespace cms_api.Controllers
             }
         }
 
-        [HttpGet("/meta")]
+        [HttpGet("meta")]
          public IActionResult MetaGet()
         {
             try
@@ -68,7 +69,7 @@ namespace cms_api.Controllers
             }
         }
 
-        [HttpPut("/meta")]
+        [HttpPut("meta")]
         async public Task<IActionResult> MetaPut([FromBody] Meta payload)
         {
             try
@@ -92,7 +93,7 @@ namespace cms_api.Controllers
         }
 
 
-        [HttpGet("/themes")]
+        [HttpGet("themes")]
 
         public IActionResult ThemesGet()
         {
@@ -107,7 +108,7 @@ namespace cms_api.Controllers
             }
         }
 
-        [HttpPut("/theme")]
+        [HttpPut("theme")]
         async public Task<IActionResult> ChangeTheme([FromBody] ChangeThemeDto payload)
         {
             try

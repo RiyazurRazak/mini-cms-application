@@ -27,8 +27,8 @@ const router = createRouter({
       name: 'Admin',
       component: AdminRoot,
       beforeEnter: (to, from, next) => {
-        //return next({ name: 'Login' })
-        next()
+        if (localStorage.getItem('hyper-token')) next()
+        else next({ name: 'Login' })
       },
       children: [
         {

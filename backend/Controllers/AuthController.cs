@@ -7,8 +7,9 @@ using Microsoft.EntityFrameworkCore;
 namespace cms_api.Controllers
 {
 
+    [Route("api/auth")]
     [ApiController]
-    [Route("/api/auth")]
+    
     public class AuthController : ControllerBase
     {
         private readonly ApplicationDBContext _dbContext;
@@ -19,7 +20,7 @@ namespace cms_api.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("login")]
         public IActionResult Login([FromQuery] LoginDto payload)
         {
             try

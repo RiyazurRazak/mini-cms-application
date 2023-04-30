@@ -2,26 +2,26 @@
 {
     public class LoginDto
     {
-        public string Username;
-        public string Password;
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 
     public class RootUserDto
     {
-        public string Username;
-        public string Password;
-        public string Email;
-        public string Role;
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public string Role { get; set; }
     }
 
     public class MetaDto
     {
-        public string BrandName;
-        public string BrandDescription;
+        public string BrandName { get; set; }
+        public string BrandDescription { get; set; }
     }
 
     public class ChangeThemeDto
     {
-        public string Id;
+        public string Id { get; set; }
     }
 }

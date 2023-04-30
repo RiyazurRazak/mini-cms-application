@@ -2,12 +2,25 @@
 import { ref } from 'vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
+import { baseUrl } from '../constants/constants.js'
 
+const router = useRouter()
 const username = ref(null)
 const password = ref(null)
 
 const loginHandller = () => {
-  alert(username.value)
+  axios
+    .get(`${baseUrl}/auth/login?username=${username.value}&password=${password.value}`)
+    .then((data) => {
+      const user = data.data
+      localStorage.setItem('hyper-token', user.token)
+      router.replace('/admin')
+    })
+    .catch((err) => {
+      alert('Something Went Wrong try agin')
+    })
 }
 </script>
 
