@@ -28,3 +28,7 @@ export const getBlog = (id) => axios.get(`${baseUrl}/blogs/article/${id}`)
 export const editBlog = (id, payload) => axios.put(`${baseUrl}/hyper/blog/${id}`, payload)
 
 export const deleteBlog = (id) => axios.delete(`${baseUrl}/hyper/blog/${id}`)
+
+export const getComments = () => axios.get(`${baseUrl}/hyper/comments`)
+
+export const deleteComment = (id) => axios.delete(`${baseUrl}/hyper/comment/${id}`)

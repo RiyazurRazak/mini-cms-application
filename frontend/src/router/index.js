@@ -10,6 +10,7 @@ import AdminRootUsersView from '../views/admin/RootUsers.vue'
 import MFAView from '../views/MfaView.vue'
 import AdminBlogView from '../views/admin/BlogsView.vue'
 import BlogEditorView from '../views/admin/BlogEditor.vue'
+import AdminCommentsView from '../views/admin/CommentsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -72,6 +73,10 @@ const router = createRouter({
           props: {
             isEditMode: true
           }
+        },
+        {
+          path: 'comments',
+          component: AdminCommentsView
         }
       ]
     },

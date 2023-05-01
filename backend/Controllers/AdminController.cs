@@ -320,5 +320,44 @@ namespace cms_api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet("comments")]
+        public IActionResult AllComments()
+        {
+            try
+            {
+               var comments =  _dbContext.Comments.Include(comment => comment.User).Include(comment => comment.Articles).Select(comment => new {comment.Id, comment.Message, author = comment.User.Name, article = comment.Articles.Title });
+                return Ok(comments);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("comment/{id}")]
+        public IActionResult DeleteComment(string id)
+        {
+            try
+            {
+                var comment = _dbContext.Comments.Find(id);
+                if(comment == null)
+                {
+                    return NotFound();
+                }
+                _dbContext.Comments.Remove(comment);
+                _dbContext.SaveChanges();
+                return Ok(new {status = true});
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
     }
 }
