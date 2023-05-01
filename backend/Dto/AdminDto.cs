@@ -38,4 +38,14 @@
         public string Description { get; set; }
         public string Body { get; set; }
     }
+
+    public class AddCommentDto
+    {
+        public string EmailAddress { get; set; }
+
+        public string Name { get; set; }
+
+        public string Message { get; set; }
+
+    }
 }

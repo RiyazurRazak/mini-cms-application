@@ -1,4 +1,6 @@
 ﻿using cms_api.Data;
+using cms_api.Dto;
+using cms_api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -89,6 +91,58 @@ namespace cms_api.Controllers
                 await _dbContext.SaveChangesAsync();
                 return Ok(blog);
 
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("comments/{id}")]
+        public IActionResult AllComment(string id)
+        {
+            try
+            {
+                var comments = _dbContext.Comments.Include(x => x.User).Where(comment => comment.Article_Id == id).Select(comment => new
+                {
+                    email = comment.User.EmailAddress,
+                    name = comment.User.Name,
+                    message = comment.Message
+                });
+                return Ok(comments);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+
+        [HttpPost("comment/{id}")]
+        async public Task<IActionResult> AddComment(string id, [FromBody] AddCommentDto payload)
+        {
+            try
+            {
+                var commentUser = _dbContext.Users.Where(user => user.EmailAddress == payload.EmailAddress).FirstOrDefault();
+                if(commentUser == null)
+                {
+                    User user = new User();
+                    user.EmailAddress = payload.EmailAddress;
+                    user.Name = payload.Name;
+                    user.Id = Guid.NewGuid().ToString();
+                    _dbContext.Users.Add(user);
+                    await _dbContext.SaveChangesAsync();
+                    commentUser = user;
+                }
+                Comments comment = new();
+                comment.Id = Guid.NewGuid().ToString();
+                comment.Message = payload.Message;
+                comment.Article_Id = id;
+                comment.User_Id = commentUser.Id;
+                _dbContext.Add(comment);
+                await _dbContext.SaveChangesAsync();
+                return Ok(comment);
             }
             catch (Exception ex)
             {

@@ -5,6 +5,7 @@ import { getBlog, addLike } from '../service/blog'
 import NavBar from '../components/NavBar.vue'
 import Divider from 'primevue/divider'
 import Button from 'primevue/button'
+import Comments from '../components/Comments.vue'
 
 const route = useRoute()
 
@@ -38,6 +39,8 @@ const likeHandller = async () => {
   <div class="article">
     <article v-html="data?.body"></article>
     <Button rounded outlined @click="likeHandller">Like This post</Button>
+    <Divider />
+    <Comments :blog-id="route.params.id" />
   </div>
 </template>
 
