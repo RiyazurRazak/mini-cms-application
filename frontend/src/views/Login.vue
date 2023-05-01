@@ -15,9 +15,13 @@ const loginHandller = () => {
     .get(`${baseUrl}/auth/login?username=${username.value}&password=${password.value}`)
     .then((data) => {
       const user = data.data
-      localStorage.setItem('hyper-token', user.token)
-      localStorage.setItem('hyper-mail', user.email)
-      router.replace('/admin')
+      if (user.isMfa) {
+        router.replace(`/mfa/${user.id}`)
+      } else {
+        localStorage.setItem('hyper-token', user.token)
+        localStorage.setItem('hyper-mail', user.email)
+        router.replace('/admin')
+      }
     })
     .catch((err) => {
       alert('Something Went Wrong try agin')

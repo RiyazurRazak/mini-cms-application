@@ -6,6 +6,12 @@
         public string Password { get; set; }
     }
 
+    public class VerifyDto
+    {
+        public string Id { get; set;}
+        public string Code { get; set;}
+    }
+
     public class RootUserDto
     {
         public string Username { get; set; }

@@ -6,6 +6,7 @@ import LoginView from '../views/Login.vue'
 import AdminHomeView from '../views/admin/HomeView.vue'
 import AdminThemesView from '../views/admin/ThemesView.vue'
 import AdminRootUsersView from '../views/admin/RootUsers.vue'
+import MFAView from '../views/MfaView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,6 +53,11 @@ const router = createRouter({
       path: '/auth',
       name: 'Login',
       component: LoginView
+    },
+    {
+      path: '/mfa/:id',
+      name: 'MFA Authentication',
+      component: MFAView
     }
   ]
 })
