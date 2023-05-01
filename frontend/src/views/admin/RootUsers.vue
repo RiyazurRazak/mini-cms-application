@@ -42,9 +42,7 @@ watch(data, (newState, _) => {
   if (newState !== undefined) {
     const loggedMail = localStorage.getItem('hyper-mail')
     if (isProxy(newState)) newState = toRaw(newState)
-    console.log(newState, loggedMail)
     const isLoggedUser = newState.data.filter((user) => user.email === loggedMail)
-    console.log(isLoggedUser)
     if (isLoggedUser) {
       isActiveUserMfa.value = isLoggedUser[0]?.isMfaEnabled
     }

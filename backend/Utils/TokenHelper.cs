@@ -31,7 +31,7 @@ namespace cms_api.Utils
 
         public static List<string> DecodeToken(string token)
         {
-            Console.WriteLine(token);
+            
             var tokenHandller = new JwtSecurityTokenHandler();
             tokenHandller.ValidateToken(token, new TokenValidationParameters
             {

@@ -12,7 +12,7 @@ namespace cms_api.Middleware
         private readonly RequestDelegate _next;
 
         // list of routes only accessible for the hyper users
-        private readonly List<string> HyperRoutes = new List<string>() { "root-user" };
+        private readonly List<string> HyperRoutes = new List<string>() { "user", "themes", "theme" };
 
 
         public AuthMiddleware(RequestDelegate next)
@@ -37,15 +37,20 @@ namespace cms_api.Middleware
                 else
                 {
                     // get the last path of the route
-                    string lastPath = context.Request.Path.Value!.Split("/").Last();
+                    string[] paths = context.Request.Path.Value!.Split("/");
+                    string lastPath = paths.Last();
+                    if(Guid.TryParse(lastPath, out var id))
+                    {
+                        lastPath = paths[paths.Length - 2];
+                    }
                     List<string> data = TokenHelper.DecodeToken(token);
 
-                 
                     // check if the path contains any hyper routes
                     if (HyperRoutes.Contains(lastPath))
                     {
+                        Console.WriteLine(data[1]);
                         // verify if the user is eligible to access
-                        Boolean isAuthorized = data[1] == "Hyper";
+                        bool isAuthorized = data[1] == "hyper";
                         if (!isAuthorized)
                         {
                             // return the response with unauthorized code
