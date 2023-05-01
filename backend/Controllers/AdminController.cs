@@ -1,6 +1,7 @@
 ﻿using cms_api.Data;
 using cms_api.Dto;
 using cms_api.Models;
+using cms_api.Utils;
 using Google.Authenticator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -40,10 +41,12 @@ namespace cms_api.Controllers
         {
             try
             {
+
+                string hashedPassword = CryptoHelper.HashPassword(payload.Password);
                 RootUser user = new();
                 user.EmailAddress = payload.Email;
                 user.Username = payload.Username;
-                user.Password = payload.Password;
+                user.Password = hashedPassword;
                 user.Role = payload.Role;
                 user.Id = Guid.NewGuid().ToString();
 
