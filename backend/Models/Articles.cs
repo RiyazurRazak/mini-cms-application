@@ -11,6 +11,9 @@ namespace cms_api.Models
         [Required]
         public string Title { get; set; }
 
+        [Required] 
+        public string Description { get; set; }
+
         [Required]
         public string Body { get; set; }
 
@@ -22,7 +25,7 @@ namespace cms_api.Models
 
         public int Likes { get; set; }
 
-        [ForeignKey("RootUser")]
+        [ForeignKey("User")]
         public string User_Id { get; set; }
         public RootUser User { get; set; }
         public ICollection<Comments>? Comments { get; set; }

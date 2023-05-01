@@ -15,6 +15,10 @@ const value = ref(50)
       <Knob v-model="value" readonly />
       <h3>Total Articles Posted</h3>
     </div>
+    <div class="child">
+      <Knob v-model="value" readonly />
+      <h3>Total Likes</h3>
+    </div>
   </div>
 </template>
 

@@ -4,8 +4,7 @@ using cms_api.Models;
 using cms_api.Utils;
 using Google.Authenticator;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace cms_api.Controllers
 {
@@ -210,6 +209,110 @@ namespace cms_api.Controllers
                 userSelectedTheme.isActive = true;
                 await _dbContext.SaveChangesAsync();
                 return Ok(userSelectedTheme);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("blogs")]
+        public IActionResult AllBlogs()
+        {
+            try
+            {
+                var blogs = _dbContext.Articles.Include(x => x.User).Select(x => new { x.Id, author = x.User.Username, x.Title, x.CreatedAt, x.Likes, x.Status });
+                return Ok(blogs);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost("blog")]
+        async public Task<IActionResult> AddBlog([FromBody] AddBlogDto payload)
+        {
+            try
+            {
+                var article = new Articles();
+                article.Id = Guid.NewGuid().ToString();
+                article.Title = payload.Title;
+                article.Description = payload.Description;
+                article.Status = true;
+                article.User_Id = (string) Request.HttpContext.Items["user"]!;
+                article.Likes = 0;
+                article.Body = payload.Body;
+                article.CreatedAt = DateTime.Now;
+                _dbContext.Articles.Add(article);
+                await _dbContext.SaveChangesAsync();
+                return Ok(article);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("blog/{id}")]
+        async public Task<IActionResult> UpdateBLog(string id, [FromBody] AddBlogDto payload)
+        {
+            try
+            {
+                var article = _dbContext.Articles.Find(id);
+                if (article == null)
+                {
+                    return NotFound();
+                }
+                article.Title = payload.Title;
+                article.Description = payload.Description;
+                article.Body = payload.Body;
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { status = true });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("blog/status/{id}")]
+        async public Task<IActionResult> ToggleStatus(string id)
+        {
+            try
+            {
+                var article = _dbContext.Articles.Find(id);
+                if(article == null)
+                {
+                    return NotFound();
+                }
+                article.Status = !article.Status;
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { status = true });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("blog/{id}")]
+        async public Task<IActionResult> DeleteBlog(string id)
+        {
+            try
+            {
+                var article = _dbContext.Articles.Find(id);
+                if (article == null)
+                {
+                    return NotFound();
+                }
+                _dbContext.Articles.Remove(article);
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { status = true });
             }
             catch (Exception ex)
             {

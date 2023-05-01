@@ -30,7 +30,7 @@ const items = ref([
     items: [
       {
         label: 'All Blogs',
-        to: '/admin//blogs'
+        to: '/admin/blogs'
       },
       {
         label: 'New Blog',

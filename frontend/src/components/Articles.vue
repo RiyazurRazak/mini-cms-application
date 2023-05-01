@@ -1,42 +1,61 @@
 <script setup>
 import Card from 'primevue/card'
 import Button from 'primevue/button'
+import { getAllBlogs, getTopBlogs } from '../service/blog'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-defineProps({
+const router = useRouter()
+
+const props = defineProps({
   title: {
     type: String,
     required: true
   }
 })
+
+const data = ref([])
+
+if (props.title === 'Top Articles') {
+  getTopBlogs()
+    .then((res) => {
+      data.value = res.data
+    })
+    .catch((err) => {
+      data.value = []
+      console.error(err)
+    })
+} else {
+  getAllBlogs()
+    .then((res) => {
+      data.value = res.data
+    })
+    .catch((err) => {
+      data.value = []
+      console.error(err)
+    })
+}
+
+const redirectToBlogPageHandller = (id) => {
+  router.replace(`/post/${id}`)
+}
 </script>
 
 <template>
   <h2 class="title">{{ title }}</h2>
   <div class="panel">
-    <Card class="card">
-      <template #title> Simple Card </template>
+    <Card class="card" v-for="blog in data">
+      <template #title> {{ blog?.title }} </template>
       <template #content>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
-          repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa
-          ratione quam perferendis esse, cupiditate neque quas!
+          {{ blog?.description }}
         </p>
+        <p>By: {{ blog?.author }}</p>
+        <p>Likes: {{ blog?.likes }}</p>
+        <p>Published At: {{ new Date(blog?.createdAt).toDateString() }}</p>
       </template>
       <template #footer>
-        <Button rounded outlined>Read More</Button>
-      </template>
-    </Card>
-    <Card class="card">
-      <template #title> Simple Card </template>
-      <template #content>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
-          repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa
-          ratione quam perferendis esse, cupiditate neque quas!
-        </p>
-      </template>
-      <template #footer>
-        <Button rounded outlined>Read More</Button>
+        <Button rounded outlined @click="redirectToBlogPageHandller(blog?.id)">Read More</Button>
       </template>
     </Card>
   </div>
