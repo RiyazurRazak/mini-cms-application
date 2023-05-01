@@ -28,6 +28,10 @@ const metaStore = useMetaStore()
     <Stats />
     <Divider />
     <TopComments />
+    <Divider />
+    <footer class="footer">
+      <p>Crafted By Riyazur Razak | Made With Vue Js & .Net Core</p>
+    </footer>
   </main>
 </template>
 <style scoped>
@@ -48,5 +52,8 @@ const metaStore = useMetaStore()
   font-size: 38px;
   font-weight: 800;
   color: #000;
+}
+.footer {
+  text-align: center;
 }
 </style>

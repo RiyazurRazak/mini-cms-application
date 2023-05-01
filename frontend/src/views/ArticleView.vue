@@ -38,10 +38,14 @@ const likeHandller = async () => {
   <Divider />
   <div class="article">
     <article v-html="data?.body"></article>
-    <Button rounded outlined @click="likeHandller">Like This post</Button>
+    <Button rounded @click="likeHandller" icon="pi pi-heart" />
     <Divider />
     <Comments :blog-id="route.params.id" />
   </div>
+  <Divider />
+  <footer class="footer">
+    <p>Crafted By Riyazur Razak | Made With Vue Js & .Net Core</p>
+  </footer>
 </template>
 
 <style scoped>
@@ -59,5 +63,8 @@ const likeHandller = async () => {
   width: 70vw;
   margin: auto;
   text-align: justify;
+}
+.footer {
+  text-align: center;
 }
 </style>

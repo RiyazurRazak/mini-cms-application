@@ -12,6 +12,7 @@ import AdminBlogView from '../views/admin/BlogsView.vue'
 import BlogEditorView from '../views/admin/BlogEditor.vue'
 import AdminCommentsView from '../views/admin/CommentsView.vue'
 import AdminUsersView from '../views/admin/UsersView.vue'
+import AdminPageEditor from '../views/admin/PageEditor.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -82,6 +83,10 @@ const router = createRouter({
         {
           path: 'users',
           component: AdminUsersView
+        },
+        {
+          path: 'pages/new',
+          component: AdminPageEditor
         }
       ]
     },

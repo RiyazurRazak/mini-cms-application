@@ -9,6 +9,7 @@ import { VueQueryPlugin } from '@tanstack/vue-query'
 //theme
 import 'primevue/resources/primevue.min.css'
 import './assets/main.css'
+import 'primeicons/primeicons.css'
 
 const app = createApp(App)
 
