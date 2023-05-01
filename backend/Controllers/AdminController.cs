@@ -359,5 +359,22 @@ namespace cms_api.Controllers
             }
         }
 
+        [HttpGet("comment-users")]
+        public IActionResult AllCommentUsers()
+        {
+            try
+            {
+                var users = _dbContext.Users.ToList();
+                return Ok(users);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
     }
 }

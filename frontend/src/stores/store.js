@@ -10,3 +10,12 @@ export const useCounterStore = defineStore('counter', () => {
 
   return { count, doubleCount, increment }
 })
+
+export const useMetaStore = defineStore('meta', () => {
+  const data = ref(null)
+  function update(payload) {
+    data.value = payload
+  }
+
+  return { data, update }
+})

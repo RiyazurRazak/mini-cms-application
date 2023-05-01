@@ -1,6 +1,10 @@
 <script setup>
 import MenuBar from 'primevue/menubar'
 import { ref, onMounted } from 'vue'
+import { useMetaStore } from '../stores/store'
+
+const metaStore = useMetaStore()
+
 const items = ref([
   {
     label: 'Home',
@@ -60,7 +64,7 @@ onMounted(() => {
 <template>
   <MenuBar :model="items">
     <template #start>
-      <h3 class="brand">Riyazur Razak</h3>
+      <h3 class="brand">{{ metaStore.data?.brandDetails?.brandName }}</h3>
     </template>
   </MenuBar>
 </template>

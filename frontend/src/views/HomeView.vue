@@ -5,6 +5,9 @@ import Gallery from '../components/Gallery.vue'
 import NavBar from '../components/NavBar.vue'
 import Stats from '../components/Stats.vue'
 import TopComments from '../components/TopComments.vue'
+import { useMetaStore } from '../stores/store'
+
+const metaStore = useMetaStore()
 </script>
 
 <template>
@@ -16,7 +19,7 @@ import TopComments from '../components/TopComments.vue'
         alt="header"
         class="header-img"
       />
-      <p class="header-content">Riyazur Razak</p>
+      <p class="header-content">{{ metaStore.data?.brandDetails?.brandName }}</p>
     </div>
     <Articles title="Top Articles" />
     <br />

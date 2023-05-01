@@ -32,3 +32,5 @@ export const deleteBlog = (id) => axios.delete(`${baseUrl}/hyper/blog/${id}`)
 export const getComments = () => axios.get(`${baseUrl}/hyper/comments`)
 
 export const deleteComment = (id) => axios.delete(`${baseUrl}/hyper/comment/${id}`)
+
+export const getUsers = () => axios.get(`${baseUrl}/hyper/comment-users`)

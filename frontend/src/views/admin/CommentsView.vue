@@ -13,7 +13,7 @@ const queryClient = useQueryClient()
 const toast = useToast()
 
 const { data, isLoading, isError } = useQuery({
-  queryKey: ['admin-comments'],
+  queryKey: ['admin-users'],
   queryFn: getComments
 })
 

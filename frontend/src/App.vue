@@ -3,13 +3,18 @@ import { RouterView } from 'vue-router'
 import { usePrimeVue } from 'primevue/config'
 import { onMounted } from 'vue'
 import axios from 'axios'
-import { getActiveTheme } from './service/meta'
+import { getActiveTheme, getMetaDetails } from './service/meta'
+import { useMetaStore } from './stores/store'
 
 const primeVue = usePrimeVue()
 
+const metaStore = useMetaStore()
+
 onMounted(async () => {
-  const res = await getActiveTheme()
-  changeTheme(res.data?.name)
+  const theme = await getActiveTheme()
+  changeTheme(theme.data?.name)
+  const meta = await getMetaDetails()
+  metaStore.update(meta.data)
 })
 
 const changeTheme = (theme) => {
