@@ -1,7 +1,10 @@
 ﻿using cms_api.Data;
 using cms_api.Dto;
 using cms_api.Models;
+using Google.Authenticator;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace cms_api.Controllers
 {
@@ -23,7 +26,7 @@ namespace cms_api.Controllers
         {
             try
             {
-                var users = _dbContext.RootUsers.Select(user => new {email = user.EmailAddress, role = user.Role, id = user.Id});
+                var users = _dbContext.RootUsers.Select(user => new {email = user.EmailAddress, role = user.Role, id = user.Id, isMfaEnabled = user.isMfaEnabled});
                 return Ok(users);
             }
             catch (Exception ex)
@@ -69,6 +72,63 @@ namespace cms_api.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+        }
+
+        [HttpGet("enable-2fa")]
+
+        public IActionResult AddMFA()
+        {
+            try
+            {
+                var id = Request.HttpContext.Items["user"];
+                Console.WriteLine(id);
+                var user = _dbContext.RootUsers.Find(id);
+                if(user == null)
+                {
+                    return NotFound();
+                }
+                string key = user.Id.Replace("-", "").Substring(0, 10);
+                TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
+                SetupCode setupInfo = tfa.GenerateSetupCode("Riyaz CMS", user.EmailAddress, key, false, 3);
+                return Ok(new
+                {
+                    qrCodeImageUrl = setupInfo.QrCodeSetupImageUrl,
+                    userId = id,
+                    setupCode = setupInfo.ManualEntryKey
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("verify-2fa/{code}")]
+        async public Task<IActionResult> VerifyMfa(string code)
+        {
+            try
+            {
+                var id = (string)Request.HttpContext.Items["user"]!;
+                string key = id.Replace("-", "").Substring(0, 10);
+                TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
+                bool isValidToken = tfa.ValidateTwoFactorPIN(key, code);
+                if (isValidToken)
+                {
+                    var user = _dbContext.RootUsers.Find(id);
+                    user.isMfaEnabled = true;
+                    await _dbContext.SaveChangesAsync();
+                    return Ok(new {status = true});
+                }
+
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+
         }
 
         [HttpGet("meta")]

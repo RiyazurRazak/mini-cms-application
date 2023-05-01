@@ -1,12 +1,13 @@
 <script setup>
 import Message from 'primevue/message'
-import { ref, watch } from 'vue'
+import { ref, watch, toRaw, isProxy } from 'vue'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
+import InputNumber from 'primevue/inputnumber'
 import Toast from 'primevue/toast'
 import ProgressSpinner from 'primevue/progressspinner'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
-import { getRootUsers, addUser, deleteUser } from '../../service/admin/index'
+import { getRootUsers, addUser, deleteUser, requestMfa, verifyMfa } from '../../service/admin/index'
 import Button from 'primevue/button'
 import { useToast } from 'primevue/usetoast'
 import DataTable from 'primevue/datatable'
@@ -27,12 +28,28 @@ const emailAddress = ref(null)
 const username = ref(null)
 const password = ref(null)
 const role = ref(null)
+const mfaData = ref({ isLoaded: false })
+const mfaCode = ref(null)
+const isActiveUserMfa = ref(false)
 
 const roles = [
   { name: 'Select User', value: null },
   { name: 'Hyper', value: 'hyper' },
   { name: 'Content Creator', value: 'content-creator' }
 ]
+
+watch(data, (newState, _) => {
+  if (newState !== undefined) {
+    const loggedMail = localStorage.getItem('hyper-mail')
+    if (isProxy(newState)) newState = toRaw(newState)
+    console.log(newState, loggedMail)
+    const isLoggedUser = newState.data.filter((user) => user.email === loggedMail)
+    console.log(isLoggedUser)
+    if (isLoggedUser) {
+      isActiveUserMfa.value = isLoggedUser[0]?.isMfaEnabled
+    }
+  }
+})
 
 const openDialogHandller = () => (isDialogOpen.value = true)
 
@@ -63,6 +80,32 @@ const deleteHandller = async (id) => {
     toast.add({ severity: 'error', detail: 'Something Went Wrong' })
   }
 }
+
+const addMfaHandller = async () => {
+  try {
+    const res = await requestMfa()
+    mfaData.value = { ...res.data, isLoaded: true }
+  } catch (err) {
+    console.error(err)
+    toast.add({ severity: 'error', detail: 'Something Went Wrong' })
+  }
+}
+
+const verifyMfaHandller = async () => {
+  try {
+    const res = await verifyMfa(mfaCode.value)
+    if (res.data?.status) {
+      toast.add({
+        severity: 'success',
+        detail: 'MFA is added to this account !!\n Addditional security added!! great'
+      })
+      mfaData.value = { isLoaded: false }
+    }
+  } catch (err) {
+    console.error(err)
+    toast.add({ severity: 'error', detail: 'Something Went Wrong' })
+  }
+}
 </script>
 
 <template>
@@ -75,6 +118,7 @@ const deleteHandller = async (id) => {
     <DataTable :value="data?.data">
       <Column field="email" header="Email Address"></Column>
       <Column field="role" header="Role"></Column>
+      <Column field="isMfaEnabled" header="Mfa Enabled"></Column>
       <Column field="id" header="Actions">
         <template #body="slotprops">
           <Button rounded severity="danger" @click="deleteHandller(slotprops.data.id)"
@@ -83,6 +127,26 @@ const deleteHandller = async (id) => {
         </template>
       </Column>
     </DataTable>
+    <Divider />
+    <h3>Advance Settings</h3>
+    <Button v-if="isActiveUserMfa" disabled severity="success">Mfa Already Added</Button>
+    <Button v-else rounded @click="addMfaHandller" :disabled="isActiveUserMfa || mfaData.isLoaded">
+      Enable 2FA For Me</Button
+    >
+    <div v-if="mfaData.isLoaded">
+      <h4>Scan The Qr Code In Your MFA Client (eg: Google Authenticator)</h4>
+      <img :src="mfaData.qrCodeImageUrl" alt="mfa qr code" class="qr-code" />
+      <p>Enter Your Code To Finish The Configuration</p>
+      <InputNumber
+        v-model="mfaCode"
+        inputId="integeronly"
+        style="margin-bottom: 16px; width: 50%"
+        placeholder="enter your security code here"
+      />
+      <br />
+
+      <Button rounded severity="help" @click="verifyMfaHandller">Verify MFA Client</Button>
+    </div>
     <Dialog
       v-model:visible="isDialogOpen"
       modal
@@ -109,5 +173,10 @@ const deleteHandller = async (id) => {
 .input {
   width: 100%;
   margin: 10px 0;
+}
+.qr-code {
+  width: 300px;
+  height: 300px;
+  margin-bottom: 20px;
 }
 </style>

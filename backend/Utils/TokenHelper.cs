@@ -43,8 +43,8 @@ namespace cms_api.Utils
             }, out var validatedtoken);
 
             var jwtToken = (JwtSecurityToken) validatedtoken;
-            var userRole = jwtToken.Claims.First(x => x.Type == "role").ToString();
-            var userId = jwtToken.Claims.First(x => x.Type == "id").ToString();
+            var userRole = jwtToken.Claims.First(x => x.Type == "role").Value;
+            var userId = jwtToken.Claims.First(x => x.Type == "id").Value;
 
             return new List<string> { userId, userRole };
         }

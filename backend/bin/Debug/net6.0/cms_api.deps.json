@@ -9,6 +9,7 @@
       "cms_api/1.0.0": {
         "dependencies": {
           "BCrypt.Net": "0.1.0",
+          "GoogleAuthenticator": "3.0.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.5",
           "Microsoft.EntityFrameworkCore.Tools": "7.0.5",
           "Swashbuckle.AspNetCore": "6.2.3"
@@ -56,6 +57,17 @@
           "lib/net35/BCrypt.Net.dll": {
             "assemblyVersion": "0.1.4141.31969",
             "fileVersion": "0.1.0.0"
+          }
+        }
+      },
+      "GoogleAuthenticator/3.0.0": {
+        "dependencies": {
+          "QRCoder": "1.4.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Google.Authenticator.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.0.0"
           }
         }
       },
@@ -466,6 +478,14 @@
           }
         }
       },
+      "QRCoder/1.4.3": {
+        "runtime": {
+          "lib/net6.0/QRCoder.dll": {
+            "assemblyVersion": "1.4.3.0",
+            "fileVersion": "1.4.3.0"
+          }
+        }
+      },
       "Swashbuckle.AspNetCore/6.2.3": {
         "dependencies": {
           "Microsoft.Extensions.ApiDescription.Server": "3.0.0",
@@ -784,6 +804,13 @@
       "path": "bcrypt.net/0.1.0",
       "hashPath": "bcrypt.net.0.1.0.nupkg.sha512"
     },
+    "GoogleAuthenticator/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UhFS7tSfNRtpL+9x03+MlWzQ0xge/C9krWXawd8lXlVHRUR7Sc/KP1MaAiSxaMSUMJOsGRM9dGr42Q6ndFnUew==",
+      "path": "googleauthenticator/3.0.0",
+      "hashPath": "googleauthenticator.3.0.0.nupkg.sha512"
+    },
     "Humanizer.Core/2.14.1": {
       "type": "package",
       "serviceable": true,
@@ -1049,6 +1076,13 @@
       "sha512": "sha512-KZYeKBET/2Z0gY1WlTAK7+RHTl7GSbtvTLDXEZZojUdAPqpQNDL6tHv7VUpqfX5VEOh+uRGKaZXkuD253nEOBQ==",
       "path": "mono.texttemplating/2.2.1",
       "hashPath": "mono.texttemplating.2.2.1.nupkg.sha512"
+    },
+    "QRCoder/1.4.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fWuFqjm8GTlEb2GqBl3Hi8HZZeZQwBSHxvRPtPjyNbT82H0ff0JwavKRBmMaXCno1Av6McPC8aJzri0Mj2w9Jw==",
+      "path": "qrcoder/1.4.3",
+      "hashPath": "qrcoder.1.4.3.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore/6.2.3": {
       "type": "package",

@@ -16,6 +16,7 @@ const loginHandller = () => {
     .then((data) => {
       const user = data.data
       localStorage.setItem('hyper-token', user.token)
+      localStorage.setItem('hyper-mail', user.email)
       router.replace('/admin')
     })
     .catch((err) => {

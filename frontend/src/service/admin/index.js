@@ -12,3 +12,7 @@ export const getRootUsers = () => axios.get(`${baseUrl}/hyper/users`)
 export const addUser = (payload) => axios.post(`${baseUrl}/hyper/user`, payload)
 
 export const deleteUser = (id) => axios.delete(`${baseUrl}/hyper/user/${id}`)
+
+export const requestMfa = () => axios.get(`${baseUrl}/hyper/enable-2fa`)
+
+export const verifyMfa = (code) => axios.put(`${baseUrl}/hyper/verify-2fa/${code}`)
