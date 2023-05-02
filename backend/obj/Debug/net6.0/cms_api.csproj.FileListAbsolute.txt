@@ -120,3 +120,6 @@ C:\Users\Hp\Documents\client\backend\obj\Debug\net6.0\cms_api.genruntimeconfig.c
 C:\Users\Hp\Documents\client\backend\obj\Debug\net6.0\ref\cms_api.dll
 C:\Users\Hp\Documents\client\backend\bin\Debug\net6.0\Google.Authenticator.dll
 C:\Users\Hp\Documents\client\backend\bin\Debug\net6.0\QRCoder.dll
+C:\Users\Hp\Documents\client\backend\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\Hp\Documents\client\backend\bin\Debug\net6.0\SendGrid.dll
+C:\Users\Hp\Documents\client\backend\bin\Debug\net6.0\StarkbankEcdsa.dll

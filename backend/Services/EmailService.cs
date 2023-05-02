@@ -11,7 +11,7 @@ namespace cms_api.Services
             {
                 var apiKey = Environment.GetEnvironmentVariable("CMS_SENDGRID_KEY");
                 var client = new SendGridClient(apiKey);
-                var from = new EmailAddress("riyazurrazakn.19ece@kongu.edu", "Noreply@cmsadmin");
+                var from = new EmailAddress("riyazurrazakn.19ece@kongu.edu", "noreply@cmsadmin");
                 var subject = "You are added to the cms";
                 var to = new EmailAddress(email, username);
                 var plainTextContent = $"You are successfully added to the cms website by the admins. You can access your credentials here. Don't share it with others. Thanks.\r\nTeam CMS Application\r\n Username : {username}\r\n Password : {password}\r\n You can access the account by http://localhost:5173/auth";
