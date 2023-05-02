@@ -1,6 +1,6 @@
 <script setup>
 import MenuBar from 'primevue/menubar'
-import { ref, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import { useMetaStore } from '../stores/store'
 
 const metaStore = useMetaStore()
@@ -11,54 +11,41 @@ const items = ref([
     to: '/'
   },
   {
+    label: 'Blogs',
+    to: '/posts'
+  },
+  {
     label: 'Pages',
-    items: [
-      {
-        label: 'Vue Website',
-        icon: 'pi pi-external-link',
-        url: 'https://vuejs.org/'
-      },
-      {
-        label: 'Router',
-        icon: 'pi pi-upload',
-        to: '/fileupload'
-      }
-    ]
+    items:
+      metaStore?.data?.pages?.map((page) => ({ to: `/page/${page?.slug}`, label: page?.title })) ||
+      []
   }
 ])
 
-onMounted(() => {
-  items.value = [
-    {
-      label: 'Home',
-      to: '/'
-    },
-    {
-      label: 'Blogs',
-      to: '/posts'
-    },
-    {
-      label: 'Pages',
-      items: [
-        {
-          label: 'Vue Website',
-          icon: 'pi pi-external-link',
-          url: 'https://vuejs.org/'
-        },
-        {
-          label: 'Router',
-          icon: 'pi pi-upload',
-          to: '/fileupload'
-        },
-        {
-          label: 'Router 1',
-          icon: 'pi pi-upload',
-          to: '/fileupload'
-        }
-      ]
-    }
-  ]
-})
+watch(
+  metaStore,
+  (state) => {
+    items.value = [
+      {
+        label: 'Home',
+        to: '/'
+      },
+      {
+        label: 'Blogs',
+        to: '/posts'
+      },
+      {
+        label: 'Pages',
+        items:
+          state?.data?.pages?.map((page) => ({
+            to: `/page/${page?.slug}`,
+            label: page?.title
+          })) || []
+      }
+    ]
+  },
+  { deep: true }
+)
 </script>
 
 <template>

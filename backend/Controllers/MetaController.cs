@@ -36,12 +36,14 @@ namespace cms_api.Controllers
                 var totalComments = _dbContext.Comments.Count();
                 var totalLikes = _dbContext.Articles.Sum(article => article.Likes);
                 var totalArticles = _dbContext.Articles.Count();
+                var pages = _dbContext.Pages.Where(page => page.IsPublic).Select(page => new { page.Title, page.Slug });
                 return Ok(new
                 {
                     brandDetails,
                     totalComments,
                     totalLikes,
-                    totalArticles
+                    totalArticles,
+                    pages,
                 });
             }
             catch (Exception ex)
