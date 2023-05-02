@@ -35,7 +35,7 @@ const changeVisibilityHandller = async (id) => {
 }
 
 const redirectToEdit = (id) => {
-  router.replace(`/admin/blog/edit/${id}`)
+  router.push(`/admin/blog/edit/${id}`)
 }
 
 const deleteBlogHandller = async (id) => {

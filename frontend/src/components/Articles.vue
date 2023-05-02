@@ -37,7 +37,7 @@ if (props.title === 'Top Articles') {
 }
 
 const redirectToBlogPageHandller = (id) => {
-  router.replace(`/post/${id}`)
+  router.push(`/post/${id}`)
 }
 </script>
 
