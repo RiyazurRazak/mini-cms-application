@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ArticlesView from '../views/ArticlesView.vue'
 import ArticleView from '../views/ArticleView.vue'
+import PageView from '../views/PageView.vue'
 import AdminRoot from '../views/admin/Index.vue'
 import LoginView from '../views/Login.vue'
 import AdminHomeView from '../views/admin/HomeView.vue'
@@ -37,6 +38,11 @@ const router = createRouter({
       path: '/post/:id',
       name: 'Post',
       component: ArticleView
+    },
+    {
+      path: '/page/:slug',
+      name: 'Page',
+      component: PageView
     },
     {
       path: '/admin',
