@@ -1,9 +1,10 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-
+import juice from 'juice'
 let editor = null
 const save = () => {
-  console.log(editor.getHtml())
+  const ele = juice(`<style>${editor.getCss()}</style>${editor.getHtml()}`)
+  console.log(ele)
   console.log(editor.getCss())
 }
 

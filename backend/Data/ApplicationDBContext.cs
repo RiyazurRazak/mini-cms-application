@@ -13,5 +13,6 @@ namespace cms_api.Data
         public DbSet<RootUser> RootUsers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Themes> Themes { get; set; }
+        public DbSet<Pages> Pages { get; set; }
     }
 }
