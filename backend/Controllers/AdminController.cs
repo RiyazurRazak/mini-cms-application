@@ -6,6 +6,7 @@ using cms_api.Utils;
 using Google.Authenticator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Encodings.Web;
 
 namespace cms_api.Controllers
 {
@@ -368,6 +369,87 @@ namespace cms_api.Controllers
                 var users = _dbContext.Users.ToList();
                 return Ok(users);
 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("pages")]
+        public IActionResult AllPages()
+        {
+            try
+            {
+                var pages = _dbContext.Pages.ToList();
+                return Ok(pages);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost("page")]
+        async public Task<IActionResult> AddPage([FromBody] AddPageDto payload)
+        {
+            try
+            {
+                Pages page = new();
+                page.Title = payload.Title;
+                page.DomElements = payload.DomElements;
+                page.CreatedAt = DateTime.Now;
+                page.Id = Guid.NewGuid().ToString();
+                page.IsPublic = true;
+                page.Slug = payload.Title.Trim().ToLower().Replace(" ", "-");
+                _dbContext.Pages.Add(page);
+                await _dbContext.SaveChangesAsync();
+                return Ok(page);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("page/status/{id}")]
+        async public Task<IActionResult> TogglePageVisibility(string id)
+        {
+            try
+            {
+                var page = _dbContext.Pages.Find(id);
+                if(page == null)
+                {
+                    return NotFound();
+                }
+                page.IsPublic = !page.IsPublic;
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { status = true });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("page/{id}")]
+        async public Task<IActionResult> DeletePage(string id)
+        {
+            try
+            {
+                var page = _dbContext.Pages.Find(id);
+                if (page == null)
+                {
+                    return NotFound();
+                }
+                _dbContext.Pages.Remove(page);
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { status = true });
             }
             catch (Exception ex)
             {

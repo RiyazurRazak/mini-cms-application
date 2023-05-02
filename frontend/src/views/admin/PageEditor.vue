@@ -1,14 +1,37 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
 import juice from 'juice'
+import { addPage } from '../../service/admin/index'
+
+const router = useRouter()
 let editor = null
-const save = () => {
-  const ele = juice(`<style>${editor.getCss()}</style>${editor.getHtml()}`)
-  console.log(ele)
-  console.log(editor.getCss())
+const title = ref(null)
+const isShowEditor = ref(false)
+
+const savePageHandller = async (domElements) => {
+  try {
+    await addPage({
+      title: title.value,
+      domElements
+    })
+    alert('Page Deployed Successfull')
+    router.push({ path: '/admin/pages' })
+  } catch (err) {
+    console.log(err)
+    alert('Something Went Wrong')
+  }
 }
 
-onMounted(() => {
+const save = () => {
+  const domElements = juice(`<style>${editor.getCss()}</style>${editor.getHtml()}`)
+  savePageHandller(domElements)
+}
+
+const toggleEditorHandller = () => {
+  isShowEditor.value = true
   editor = grapesjs.init({
     container: '#editor',
     fromElement: true,
@@ -45,9 +68,29 @@ onMounted(() => {
   })
   editor.Panels.removeButton('options', 'export-template')
   editor.Panels.removeButton('options', 'gjs-open-import-webpage')
+}
+
+onMounted(() => {
+  isShowEditor.value = false
 })
 </script>
 
 <template>
-  <div id="editor" />
+  <div v-if="!isShowEditor">
+    <InputText placeholder="Enter The Page Title Here" v-model="title" class="input" />
+    <br />
+    <Button rounded @click="toggleEditorHandller">Enter To Page Editor</Button>
+  </div>
+  <h3 v-else>Page Title: {{ title }}</h3>
+  <div
+    id="editor"
+    :style="`${isShowEditor ? 'visibility: visible;' : 'visibility: hidden;'}height:900px`"
+  />
 </template>
+
+<style scoped>
+.input {
+  width: 80%;
+  margin-bottom: 20px;
+}
+</style>

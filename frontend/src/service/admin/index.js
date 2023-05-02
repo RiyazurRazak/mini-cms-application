@@ -34,3 +34,11 @@ export const getComments = () => axios.get(`${baseUrl}/hyper/comments`)
 export const deleteComment = (id) => axios.delete(`${baseUrl}/hyper/comment/${id}`)
 
 export const getUsers = () => axios.get(`${baseUrl}/hyper/comment-users`)
+
+export const addPage = (payload) => axios.post(`${baseUrl}/hyper/page`, payload)
+
+export const getPages = () => axios.get(`${baseUrl}/hyper/pages`)
+
+export const changePageVisibility = (id) => axios.put(`${baseUrl}/hyper/page/status/${id}`)
+
+export const deletePage = (id) => axios.delete(`${baseUrl}/hyper/page/${id}`)

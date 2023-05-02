@@ -48,4 +48,12 @@
         public string Message { get; set; }
 
     }
+
+    public class AddPageDto
+    {
+        public string Title { get; set; }
+
+        public string DomElements { get; set; }
+
+    }
 }
