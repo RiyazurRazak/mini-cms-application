@@ -1,13 +1,14 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
-const save = (editor) => {
+let editor = null
+const save = () => {
   console.log(editor.getHtml())
   console.log(editor.getCss())
 }
 
 onMounted(() => {
-  var editor = grapesjs.init({
+  editor = grapesjs.init({
     container: '#editor',
     fromElement: true,
     width: 'auto',

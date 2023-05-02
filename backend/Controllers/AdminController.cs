@@ -1,6 +1,7 @@
 ﻿using cms_api.Data;
 using cms_api.Dto;
 using cms_api.Models;
+using cms_api.Services;
 using cms_api.Utils;
 using Google.Authenticator;
 using Microsoft.AspNetCore.Mvc;
@@ -48,9 +49,9 @@ namespace cms_api.Controllers
                 user.Password = hashedPassword;
                 user.Role = payload.Role;
                 user.Id = Guid.NewGuid().ToString();
-
                 _dbContext.RootUsers.Add(user);
                 await _dbContext.SaveChangesAsync();
+                await EmailService.SendMail(payload.Email, payload.Username, payload.Password);
                 return Ok();
 
             }
