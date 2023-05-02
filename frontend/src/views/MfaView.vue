@@ -18,6 +18,7 @@ const verifyMfaHandller = async () => {
       id: userId
     })
     const user = res.data
+    axios.defaults.headers.Authorization = `Bearer ${user.token}`
     localStorage.setItem('hyper-token', user.token)
     localStorage.setItem('hyper-mail', user.email)
     router.replace('/admin')

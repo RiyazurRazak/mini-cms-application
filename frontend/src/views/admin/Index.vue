@@ -3,6 +3,13 @@ import { RouterView } from 'vue-router'
 import { ref } from 'vue'
 import PanelMenu from 'primevue/panelmenu'
 import Divider from 'primevue/divider'
+import router from '../../router'
+
+const logoutHandller = () => {
+  localStorage.removeItem('hyper-token')
+  localStorage.removeItem('hyper-mail')
+  router.replace('/')
+}
 
 const items = ref([
   {
@@ -61,6 +68,11 @@ const items = ref([
         to: '/admin/root-users/'
       }
     ]
+  },
+  {
+    key: 6,
+    label: 'Logout',
+    command: logoutHandller
   }
 ])
 </script>

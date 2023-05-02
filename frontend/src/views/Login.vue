@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import { useRouter } from 'vue-router'
@@ -10,6 +10,12 @@ const router = useRouter()
 const username = ref(null)
 const password = ref(null)
 
+onBeforeMount(() => {
+  const token = localStorage.getItem('hyper-token')
+  if (token !== null) {
+    router.replace('/admin')
+  }
+})
 const loginHandller = () => {
   axios
     .get(`${baseUrl}/auth/login?username=${username.value}&password=${password.value}`)
@@ -18,6 +24,7 @@ const loginHandller = () => {
       if (user.isMfa) {
         router.replace(`/mfa/${user.id}`)
       } else {
+        axios.defaults.headers.Authorization = `Bearer ${user.token}`
         localStorage.setItem('hyper-token', user.token)
         localStorage.setItem('hyper-mail', user.email)
         router.replace('/admin')
