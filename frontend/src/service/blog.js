@@ -12,3 +12,5 @@ export const addLike = (id) => axios.put(`${baseUrl}/blogs/like/${id}`)
 export const getComments = (id) => axios.get(`${baseUrl}/blogs/comments/${id}`)
 
 export const addComment = (id, payload) => axios.post(`${baseUrl}/blogs/comment/${id}`, payload)
+
+export const getTopComments = () => axios.get(`${baseUrl}/blogs/comments/top`)

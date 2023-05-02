@@ -118,7 +118,6 @@ namespace cms_api.Controllers
         }
 
 
-
         [HttpPost("comment/{id}")]
         async public Task<IActionResult> AddComment(string id, [FromBody] AddCommentDto payload)
         {
@@ -149,6 +148,26 @@ namespace cms_api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet("comments/top")]
+        public IActionResult TopComments()
+        {
+            try
+            {
+                var comments = _dbContext.Comments.Take(3).Include(comment => comment.User).Select(comment => new
+                {
+                    email = comment.User.EmailAddress,
+                    name = comment.User.Name,
+                    message = comment.Message
+                });
+                return Ok(comments);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
 
     }
 }

@@ -68,6 +68,7 @@ const redirectToBlogPageHandller = (id) => {
 }
 .card {
   width: 40%;
+  height: 350px;
   margin: 20px;
 }
 .panel {
@@ -75,5 +76,6 @@ const redirectToBlogPageHandller = (id) => {
   align-items: center;
   justify-content: center;
   margin: 20px 5%;
+  flex-wrap: wrap;
 }
 </style>
