@@ -42,3 +42,5 @@ export const getPages = () => axios.get(`${baseUrl}/hyper/pages`)
 export const changePageVisibility = (id) => axios.put(`${baseUrl}/hyper/page/status/${id}`)
 
 export const deletePage = (id) => axios.delete(`${baseUrl}/hyper/page/${id}`)
+
+export const getCommentStatus = () => axios.get(`${baseUrl}/hyper/stats/comments`)

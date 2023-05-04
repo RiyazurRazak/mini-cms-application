@@ -377,6 +377,23 @@ namespace cms_api.Controllers
             }
         }
 
+        [HttpGet("stats/comments")]
+        public IActionResult CommentStats()
+        {
+            try
+            {
+                var data = _dbContext.Comments.Include(comment => comment.User).GroupBy(comment => comment.User)
+                    .Select(comment => new { comments = comment.Count(), username = comment.Key.Name });
+                return Ok(data);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet("pages")]
         public IActionResult AllPages()
         {
