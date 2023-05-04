@@ -45,17 +45,29 @@ const redirectToBlogPageHandller = (id) => {
   <h2 class="title">{{ title }}</h2>
   <div class="panel">
     <Card class="card" v-for="blog in data">
+      <template #header>
+        <img :src="`https://picsum.photos/300/150?random=${blog?.id}`" alt="header" />
+      </template>
       <template #title> {{ blog?.title }} </template>
       <template #content>
-        <p>
-          {{ blog?.description }}
-        </p>
-        <p>By: {{ blog?.author }}</p>
-        <p>Likes: {{ blog?.likes }}</p>
-        <p>Published At: {{ new Date(blog?.createdAt).toDateString() }}</p>
+        <p>{{ blog?.description.substring(0, 40) }}...</p>
+        <Button @click="redirectToBlogPageHandller(blog?.id)">Read More</Button>
       </template>
       <template #footer>
-        <Button rounded outlined @click="redirectToBlogPageHandller(blog?.id)">Read More</Button>
+        <div class="row">
+          <div>
+            <p>{{ blog?.likes }}</p>
+            <h6 style="margin: 0">Likes</h6>
+          </div>
+          <div>
+            <p>{{ blog?.author }}</p>
+            <h6 style="margin: 0">Author</h6>
+          </div>
+          <div>
+            <p>{{ new Date(blog?.createdAt).toLocaleDateString() }}</p>
+            <h6 style="margin: 0">Published</h6>
+          </div>
+        </div>
       </template>
     </Card>
   </div>
@@ -67,8 +79,8 @@ const redirectToBlogPageHandller = (id) => {
   font-family: 'Satisfy', cursive !important;
 }
 .card {
-  width: 40%;
-  height: 350px;
+  width: 300px;
+  height: 500px;
   margin: 20px;
 }
 .panel {
@@ -77,5 +89,13 @@ const redirectToBlogPageHandller = (id) => {
   justify-content: center;
   margin: 20px 5%;
   flex-wrap: wrap;
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.row div {
+  text-align: center;
 }
 </style>
