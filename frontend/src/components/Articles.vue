@@ -46,7 +46,11 @@ const redirectToBlogPageHandller = (id) => {
   <div class="panel">
     <Card class="card" v-for="blog in data">
       <template #header>
-        <img :src="`https://picsum.photos/300/150?random=${blog?.id}`" alt="header" />
+        <img
+          class="header-img"
+          :src="`https://picsum.photos/280/150?random=${blog?.id}`"
+          alt="header"
+        />
       </template>
       <template #title> {{ blog?.title }} </template>
       <template #content>
@@ -89,6 +93,11 @@ const redirectToBlogPageHandller = (id) => {
   justify-content: center;
   margin: 20px 5%;
   flex-wrap: wrap;
+}
+.header-img {
+  margin: 10px;
+  width: 280px;
+  border-radius: 5px;
 }
 .row {
   display: flex;

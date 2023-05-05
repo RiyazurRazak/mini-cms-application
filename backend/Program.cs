@@ -45,6 +45,7 @@ namespace cms_api
 
             app.UseCors(MyAllowSpecificOrigins);
 
+            // verify the authentication and authorization for admin routes
             app.UseWhen(context => context.Request.Path.StartsWithSegments("/api/hyper"), builder =>
                builder.UseMiddleware<AuthMiddleware>()
             );

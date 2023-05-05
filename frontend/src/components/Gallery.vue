@@ -6,20 +6,20 @@ const images = ref([
   {
     itemImageSrc: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
     thumbnailImageSrc: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
-    alt: 'Description for Image 1',
-    title: 'Title 1'
+    alt: 'tree',
+    title: 'tree'
   },
   {
     itemImageSrc: 'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__480.jpg',
     thumbnailImageSrc: 'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__480.jpg',
-    alt: 'Description for Image 1',
-    title: 'Title 1'
+    alt: 'forest',
+    title: 'forest'
   },
   {
-    itemImageSrc: 'https://picsum.photos/200/300',
-    thumbnailImageSrc: 'https://picsum.photos/200/300',
+    itemImageSrc: 'https://cdn.pixabay.com/photo/2023/04/02/17/36/monstera-7895042_1280.jpg',
+    thumbnailImageSrc: 'https://cdn.pixabay.com/photo/2023/04/02/17/36/monstera-7895042_1280.jpg',
     alt: 'Description for Image 1',
-    title: 'Title 1'
+    title: 'abstract'
   }
 ])
 const responsiveOptions = ref([

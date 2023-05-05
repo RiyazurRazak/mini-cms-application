@@ -84,13 +84,15 @@ namespace cms_api.Controllers
         {
             try
             {
+                // get the loggedin users id from middleware
                 var id = Request.HttpContext.Items["user"];
-                Console.WriteLine(id);
                 var user = _dbContext.RootUsers.Find(id);
                 if(user == null)
                 {
                     return NotFound();
                 }
+
+                // generate a key to create a secret code
                 string key = user.Id.Replace("-", "").Substring(0, 10);
                 TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
                 SetupCode setupInfo = tfa.GenerateSetupCode("Riyaz CMS", user.EmailAddress, key, false, 3);
@@ -116,6 +118,7 @@ namespace cms_api.Controllers
                 var id = (string)Request.HttpContext.Items["user"]!;
                 string key = id.Replace("-", "").Substring(0, 10);
                 TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
+                // validate if mfa registered with the client app (google authenticator)
                 bool isValidToken = tfa.ValidateTwoFactorPIN(key, code);
                 if (isValidToken)
                 {

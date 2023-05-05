@@ -34,6 +34,7 @@ namespace cms_api.Controllers
                 if(!CryptoHelper.ValidatePassword(payload.Password, user.Password)){
                     return Unauthorized();
                 }
+                // if user has mfa redirect to mfa view
                 if (user.isMfaEnabled)
                 {
                     return Ok(new
