@@ -53,6 +53,10 @@ const publishHandller = async () => {
       })
       toast.add({ severity: 'success', detail: 'Blog Updated' })
     } else {
+      if (title.value === null || description.value === null || body.value === null) {
+        toast.add({ severity: 'warn', detail: 'all fields are required' })
+        return
+      }
       const res = await createBlog({
         title: title.value,
         description: description.value,

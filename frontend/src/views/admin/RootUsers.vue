@@ -53,6 +53,15 @@ const openDialogHandller = () => (isDialogOpen.value = true)
 
 const addUserHandller = async () => {
   try {
+    if (
+      emailAddress.value === null ||
+      password.value === null ||
+      username.value === null ||
+      role.value === null
+    ) {
+      toast.add({ severity: 'warn', detail: 'All fields are required' })
+      return
+    }
     const payload = {
       email: emailAddress.value,
       password: password.value,

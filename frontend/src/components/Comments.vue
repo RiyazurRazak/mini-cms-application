@@ -39,6 +39,11 @@ onMounted(() => {
 
 const addCommentHandller = async () => {
   try {
+    if (emailAddress.value === null || name.value === null) {
+      toast.add({ severity: 'warn', detail: 'Email address and name are required' })
+      return
+    }
+
     const payload = {
       emailAddress: emailAddress.value,
       name: name.value,
